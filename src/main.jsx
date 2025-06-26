@@ -8,6 +8,9 @@ import { router } from './router/Router.jsx';
 import 'aos/dist/aos.css';
 import AOS from 'aos';
 
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 AOS.init();
 
 createRoot(document.getElementById('root')).render(
