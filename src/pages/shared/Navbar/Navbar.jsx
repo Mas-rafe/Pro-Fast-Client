@@ -1,11 +1,21 @@
-import React from 'react';
-import { NavLink } from 'react-router';
+import React, { use } from 'react';
+import { Link, NavLink } from 'react-router';
 import ProFastLogo from '../ProFastLogo/ProFastLogo';
+import { AuthContext } from '../../../Contexts/AuthContext/AuthContext';
 
 const Navbar = () => {
+    const { user, logOut } = use(AuthContext);
+    const handleLogOut = () => {
+        logOut().then(() => {
+            alert("Logged out successfully")
+        }).catch(error => {
+            console.log(error);
+        })
+    }
     const navItems = <>
         <li> <NavLink to="/">Home</NavLink> </li>
         <li> <NavLink to="/coverage">Coverage</NavLink> </li>
+        <li> <NavLink to="/sendParcel">Send a parcel</NavLink> </li>
         <li> <NavLink to="/about">About Us</NavLink> </li>
 
     </>
@@ -34,7 +44,15 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <a className="btn">Button</a>
+                <h2 className='bg-primary p-1 text-xs rounded-2xl hidden  lg:block'>{user && user.email}</h2>
+                {
+                    user ? <button onClick={handleLogOut} className='btn btn-primary text-secondary'> Log out</button> : <Link to='/login' className='btn btn-primary text-secondary'>Login</Link>
+                   
+                }
+                {
+                    user ? <Link className='btn hidden ' to="/register">Register</Link> :  <Link className='btn ' to="/register">Register</Link> 
+                }
+              
             </div>
         </div>
     );

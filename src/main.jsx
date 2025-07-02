@@ -11,6 +11,7 @@ import AOS from 'aos';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import AuthProvider from './Contexts/AuthContext/AuthProvider.jsx';
+// import { Toaster } from 'react-hot-toast';
 
 AOS.init();
 
@@ -19,6 +20,7 @@ createRoot(document.getElementById('root')).render(
     <div className='font-urbanist max-w-7xl mx-auto '>
       <AuthProvider>
         <RouterProvider router={router} />
+        {/* <Toaster position="top-center" reverseOrder={false} /> */}
       </AuthProvider>
     </div>
   </StrictMode>,
