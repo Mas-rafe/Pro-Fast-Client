@@ -16,6 +16,12 @@ const Navbar = () => {
         <li> <NavLink to="/">Home</NavLink> </li>
         <li> <NavLink to="/coverage">Coverage</NavLink> </li>
         <li> <NavLink to="/sendParcel">Send a parcel</NavLink> </li>
+
+        {
+            user && <>
+                <li> <NavLink to="/dashboard">DashBoard</NavLink> </li>
+            </>
+        }
         <li> <NavLink to="/about">About Us</NavLink> </li>
 
     </>
@@ -47,12 +53,12 @@ const Navbar = () => {
                 <h2 className='bg-primary p-1 text-xs rounded-2xl hidden  lg:block'>{user && user.email}</h2>
                 {
                     user ? <button onClick={handleLogOut} className='btn btn-primary text-secondary'> Log out</button> : <Link to='/login' className='btn btn-primary text-secondary'>Login</Link>
-                   
+
                 }
                 {
-                    user ? <Link className='btn hidden ' to="/register">Register</Link> :  <Link className='btn ' to="/register">Register</Link> 
+                    user ? <Link className='btn hidden ' to="/register">Register</Link> : <Link className='btn ' to="/register">Register</Link>
                 }
-              
+
             </div>
         </div>
     );

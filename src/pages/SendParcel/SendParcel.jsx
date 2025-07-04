@@ -1,13 +1,14 @@
-import React, { useEffect,  } from 'react';
+import React, { useEffect, } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLoaderData } from 'react-router';
 import Swal from 'sweetalert2';
 import UseAuth from '../../Hooks/UseAuth';
+import useAxiosSecure from '../../Hooks/useAxiosSecure';
 
 const generateTrackingId = () => {
-  const date =new Date();
-  const datePart = date.toISOString().split("T")[0].replace(/-/g,"")
-  const rand = Math.random().toString(36).substring(2,7).toUpperCase();
+  const date = new Date();
+  const datePart = date.toISOString().split("T")[0].replace(/-/g, "")
+  const rand = Math.random().toString(36).substring(2, 7).toUpperCase();
   return `PCL-${datePart}-${rand}`;
 };
 const SendParcel = () => {
@@ -16,7 +17,9 @@ const SendParcel = () => {
   const parcelType = watch("type");
   const senderRegion = watch("senderRegion");
   const receiverRegion = watch("receiverRegion");
-  const {user} = UseAuth();
+  const { user } = UseAuth();
+  const axiosSecure = useAxiosSecure();
+
   // Reset service center fields when region changes
   useEffect(() => {
     setValue("senderServiceCenter", "");
@@ -84,20 +87,33 @@ const SendParcel = () => {
     const parcelData = {
       ...data,
       cost,
-      created_by:user.email,
-      payment_status:'unpaid',
-      delivery_status:'not_collected',
-       trackingId: generateTrackingId(),
+      created_by: user.email,
+      payment_status: 'unpaid',
+      delivery_status: 'not_collected',
+      trackingId: generateTrackingId(),
       creation_date: new Date().toISOString()
     };
     console.log("Saving to DB:", parcelData);
 
-    Swal.fire({
-      title: 'Success!',
-      text: 'Parcel has been successfully created.',
-      icon: 'success',
-      confirmButtonText: 'OK'
-    });
+    axiosSecure.post('/parcels', parcelData)
+      .then(res => {
+        console.log(res.data);
+        if (res.data.insertedId) {
+          //TODO: redirect to the payment page or trigger a payment modal
+          Swal.fire({
+            title: 'Redirecting!',
+            text: 'Proceeding to payment gateway',
+            icon: 'success',
+            timer:1500,
+            confirmButtonText:false
+          });
+        }
+
+      })
+    //save data to the server
+
+
+
 
     reset();
   };
