@@ -1,21 +1,33 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import SocialLogin from '../SocialLogin/SocialLogin';
+import UseAuth from '../../../Hooks/UseAuth';
 
 
 const Login = () => {
+    const { signIn } = UseAuth();
     const { register, handleSubmit, formState: { errors }, } = useForm();
+    const location = useLocation();
+    const navigate = useNavigate();
+    const from = location.state?.from || '/'
+    
 
     const onSubmit = data => {
-        console.log(data);
+        signIn(data.email, data.password)
+        .then(result => {
+            console.log(result.user);
+            navigate(from);
+        })
+        .catch(error => console.log(error))
+       
 
     }
     return (
         <div className="card bg-base-100 w-full max-w-sm shrink-0 ">
             <div className="card-body">
 
-                <h1 className="text-3xl font-bold text-secondary text-center">Sign In now</h1>
+                <h1 className="text-3xl font-bold text-secondary text-center">Please log In</h1>
                 <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" >
                     <fieldset className="fieldset">
 
