@@ -17,7 +17,7 @@ const MyParcels = () => {
             return res.data;
         }
     })
-    console.log(parcels);
+    // console.log(parcels);
 
     const handleView = (id) => {
         console.log("Viewing:", id);
@@ -114,7 +114,7 @@ const MyParcels = () => {
                                     View
                                 </button>
                                 <button
-                                    onClick={() => handlePay(parcel)}
+                                    onClick={() => handlePay(parcel._id)}
                                     disabled={parcel.payment_status === 'paid'}
                                     className="btn btn-sm btn-outline btn-success"
                                 >

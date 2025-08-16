@@ -105,7 +105,7 @@ const SendParcel = () => {
             text: 'Proceeding to payment gateway',
             icon: 'success',
             timer:1500,
-            confirmButtonText:false
+            // confirmButtonText:false
           });
         }
 
